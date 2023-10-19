@@ -1,0 +1,15 @@
+.app-header{
+    border-bottom: 2px solid rgb(106,106,106);
+}
+.app-header-item{
+    color:black;
+    font-weight:600;
+    display: inline-block;
+    padding: 10px;
+    text-decoration: none;
+}
+.app-header-item.active{
+    
+    color: white;
+    background-color: black;
+}
