@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Container, Form, Table } from "react-bootstrap";
+import './Matrix.css';
 const CramerRule = () => {
   const [n, setN] = useState(0);
   const [matrix, setMatrix] = useState([]);
@@ -13,6 +14,7 @@ const CramerRule = () => {
       if (value > 10) {
         value = 10;
       }
+      
       setN(value);
       const emptyMatrix = Array.from({ length: value }, () => Array(value).fill(''));
       setMatrix(emptyMatrix);
@@ -22,6 +24,12 @@ const CramerRule = () => {
       setB(emptyB);
       setHtml(null);
     }
+    else {
+      value=null;
+      setN(value);
+    }
+
+    
   }
   const inputMatrixValue = (row, col, e) => {
     const updatedMatrix = [...matrix];
@@ -37,12 +45,14 @@ const CramerRule = () => {
   const print = () => {
     console.log(data);
     return (
+      
       <Container>
+        <h3>Det</h3>
         <Table striped bordered hover variant="dark">
           <thead>
             {data.length > 0 && (
               <tr>
-                <th width="10%">Deta :</th>
+                <th width="20%">Deta :</th>
                 <th>{data[0].detA}</th>
               </tr>
             )}
@@ -127,52 +137,48 @@ const CramerRule = () => {
 
         {n > 0 && (
           <Table bordered striped>
-            <thead>
-              <tr>
-                {Array.from({ length: n }, (_, index) => (
-                  <th>Column {index + 1}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {matrix.map((row, rowIndex) => (
-                <tr>
-                  {row.map((col, colIndex) => (
-                    <td>
-                      <input
-                        type="number"
-                        value={matrix[rowIndex][colIndex]}
-                        onChange={(e) => inputMatrixValue(rowIndex, colIndex, e)}
-                        className="form-control"
-                        step="any"
-                      ></input>
-                    </td>
-                  ))}
-                </tr>
+          <thead>
+            <tr>
+              {Array.from({ length: n }, (_, index) => (
+                <th>Column {index + 1}</th>
               ))}
-            </tbody>
-          </Table>
-        )}
-        {n > 0 && (
-          <div>
-            <h3>Matrix B</h3>
-            {B.map((value, colIndex) => (
-              <div className='row'>
-                <div className='col sm-3'>
-
-                  <Form.Group className="mb-3">
-                    <input type="number" style={{ width: '20%' }} value={value} onChange={(e) => inputBValue(colIndex, e)} className="form-control"></input>
-                  </Form.Group>
-                </div>
-              </div>
+              <th>Matrix B</th> {/* เพิ่มคอลัมน์สำหรับ Matrix B */}
+            </tr>
+          </thead>
+          <tbody>
+            {matrix.map((row, rowIndex) => (
+              <tr>
+                {row.map((col, colIndex) => (
+                  <td>
+                    <input
+                      type="number"
+                      value={matrix[rowIndex][colIndex]}
+                      onChange={(e) => inputMatrixValue(rowIndex, colIndex, e)}
+                      className="form-control"
+                      step="any"
+                    ></input>
+                  </td>
+                ))}
+                <td> {/* คอลัมน์สำหรับ Matrix B */}
+                  <input
+                    type="number"
+                    value={B[rowIndex]}
+                    onChange={(e) => inputBValue(rowIndex, e)}
+                    className="form-control"
+                    step="any"
+                  ></input>
+                </td>
+              </tr>
             ))}
-          </div>
+          </tbody>
+        </Table>
         )}
+        
         <Button variant="dark" onClick={calculateRoot}>Calculate</Button>
         {n > 0 && (
           <div>
             <h3>Matrix X</h3>
-            <Table bordered striped>
+            <Table bordered striped className="custom-table">
               <thead>
                 <tr>
                   <th>Column</th>

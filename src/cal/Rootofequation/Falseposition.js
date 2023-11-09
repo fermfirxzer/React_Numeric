@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button, Container, Form, Table } from "react-bootstrap";
-import { evaluate } from 'mathjs'
-
+import { SQRT1_2, evaluate } from 'mathjs'
+import Plot from "react-plotly.js";
 const Falseposition=()=>{
     const [xl,setxl]=useState(0);
     const [xr,setxr]=useState(0);
@@ -10,32 +10,34 @@ const Falseposition=()=>{
     const [data,setData]=useState([]);
     const [html, setHtml] = useState([]);
     const [Count, setCount] = useState(0);
+    const [graphx,setgraphx]=useState([]);
     const inputxl = (event) => {
         setxl(event.target.value);
     }
     const inputxr = (event) => {
         console.log(event.target.value)
-        setxr(event.target.value);
-    }
-    const inputEquation = (event) => {
-        console.log(event.target.value);
-        setEquation(event.target.value);
-    }
-    const calculateRoot = () => {
-        const newData=[];
-        setCount(0);
-        setx(0);
-        CalFalseposition(xl,xr);
-        setData(newData);
-        setHtml(print());
+            setxr(event.target.value);
+        }
+        const inputEquation = (event) => {
+            console.log(event.target.value);
+            setEquation(event.target.value);
+        }
+        const calculateRoot = () => {
+            const newData=[];
+            
+            setCount(0);
+            setx(0);
+            CalFalseposition(xl,xr);
+            setData(newData);
+            setHtml(print());
 
-    }
-    const print = () => {
-        console.log(data);
-        return (
-            <Container>
-                <Table striped bordered hover variant="dark">
-                    <thead>
+        }
+        const print = () => {
+            console.log(data);
+            return (
+                <Container>
+                    <Table striped bordered hover variant="dark">
+                        <thead>
                         <tr>
                             <th width="10%">iteration</th>
                             <th width="35%">xl</th>
@@ -75,6 +77,7 @@ const Falseposition=()=>{
                 xl_new=x1;
             }
             count++;
+            graphx.push({x1:x1,xold:x1_old})
             x1_old=x1;
             fxl=evaluate(Equation,{x:xl_new});
             fxr=evaluate(Equation,{x:xr_new});
@@ -86,6 +89,7 @@ const Falseposition=()=>{
                 x1: x1,
             };
             data.push(obj);
+            
             console.log("x1 :")
             console.log(x1);
         }
@@ -112,6 +116,22 @@ const Falseposition=()=>{
             <Container>
                 {html}
             </Container>
+            <Plot
+        data={[
+          {
+            x: graphx.map((row)=>row.xm,),
+            y: graphx.map((row)=>row.xold,),
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+          
+        ]}
+        layout={ {width: 1000, height: 800, title: 'Bisection Plot'} }
+      />
+      <Plot data={[{
+        
+      }]}/>
         </Container>
     )
 }

@@ -21,7 +21,6 @@ const Gausselimination = () => {
       const emptyB = Array(value).fill(0);
       setX(emptyX);
       setB(emptyB);
-      
     }
   }
 
@@ -36,32 +35,9 @@ const Gausselimination = () => {
     updatedB[col] = e.target.value;
     setB(updatedB);
   }
-  const print = () => {
-    console.log(data);
-    return(
-    <Container>
-      <Table striped bordered hover variant="dark">
-        <thead>
-          <tr>
-          </tr>
-          </thead>
-        <tbody>
-          {data.map((step, stepIndex) => (
-            <tr key={stepIndex}>
-              {step.a.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {row.map((item, columnIndex) => (
-                    <td key={columnIndex}>{item}</td>
-                  ))}
-                </tr>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </Container>
-   ) ;
-  }         
+  // const print = () => {
+  
+  // }         
   // Create a copy of the matrix and B for manipulation
   const calculateRoot = () => {
     const newData=[];
@@ -85,19 +61,16 @@ const Gausselimination = () => {
       }
     }
   
-    x[n - 1] = b[n - 1] / a[n - 1][n - 1];
-
-    for (let i = n - 2; i >= 0; i--) {
-      let sum = 0;
-      for (let j = i + 1; j < n; j++) {
-        sum = sum + a[i][j] * x[j];
+    for (let k = n - 1; k >= 0; k--) {
+      b[k] = b[k] / a[k][k];
+      a[k][k] = 1;
+      for (let i = k - 1; i >= 0; i--) {
+        b[i] = b[i] - a[i][k] * b[k];
       }
-      x[i] = (b[i] - sum) / a[i][i];
     }
-    const roundedX = x.map(value => value.toFixed(6));
+    const roundedX = b.map(value => value.toFixed(6));
     console.log("x dd:" + x);
     setX(roundedX);
-    setHtml(print());
   }
   return (
     <div>
@@ -109,47 +82,42 @@ const Gausselimination = () => {
         </Form.Group>
 
         {n > 0 && (
-          <Table bordered striped>
-            <thead>
-              <tr>
-                {Array.from({ length: n }, (_, index) => (
-                  <th>Column {index + 1}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {matrix.map((row, rowIndex) => (
-                <tr>
-                  {row.map((col, colIndex) => (
-                    <td>
-                      <input
-                        type="number"
-                        value={matrix[rowIndex][colIndex]}
-                        onChange={(e) => inputMatrixValue(rowIndex, colIndex, e)}
-                        className="form-control"
-                        step="any"
-                      ></input>
-                    </td>
-                  ))}
-                </tr>
+          <Table bordered>
+          <thead>
+            <tr>
+              {Array.from({ length: n }, (_, index) => (
+                <th>Column {index + 1}</th>
               ))}
-            </tbody>
-          </Table>
-        )}
-        {n > 0 && (
-          <div>
-            <h3>Matrix B</h3>
-            {B.map((value, colIndex) => (
-              <div className='row'>
-                <div className='col sm-3'>
-
-                  <Form.Group className="mb-3">
-                    <input type="number" style={{ width: '20%' }} value={value} onChange={(e) => inputBValue(colIndex, e)} className="form-control"></input>
-                  </Form.Group>
-                </div>
-              </div>
+              <th>Matrix B</th> {/* เพิ่มคอลัมน์สำหรับ Matrix B */}
+            </tr>
+          </thead>
+          <tbody>
+            {matrix.map((row, rowIndex) => (
+              <tr>
+                {row.map((col, colIndex) => (
+                  <td>
+                    <input
+                      type="number"
+                      value={matrix[rowIndex][colIndex]}
+                      onChange={(e) => inputMatrixValue(rowIndex, colIndex, e)}
+                      className="form-control"
+                      step="any"
+                    ></input>
+                  </td>
+                ))}
+                <td> {/* คอลัมน์สำหรับ Matrix B */}
+                  <input
+                    type="number"
+                    value={B[rowIndex]}
+                    onChange={(e) => inputBValue(rowIndex, e)}
+                    className="form-control"
+                    step="any"
+                  ></input>
+                </td>
+              </tr>
             ))}
-          </div>
+          </tbody>
+        </Table>
         )}
         <Button variant="dark" onClick={calculateRoot}>Calculate</Button>
         {n > 0 && (
@@ -174,7 +142,7 @@ const Gausselimination = () => {
           </div>
           
         )}
-        {html};
+        {html}
       </Container>
     </div>
 

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from 'react-router-dom';
 import './rootofequation.css';
+
 function Rootofequation() {
     return (
         <div>
@@ -29,14 +30,25 @@ function Rootofequation() {
                     <li><Link to="/rootofequation/Matrixinverse">Matrixinverse</Link></li>
                     <li><Link to="/rootofequation/LU Decompos Method">LU Decompos Method</Link></li>
                     <li><Link to="/rootofequation/Jacobi">Jacobi</Link></li>
+                    <li><Link to="/rootofequation/Gauss_seidel">Gauss_seidel</Link></li>
+                    <li><Link to="/rootofequation/Conjugate">Conjugate</Link></li>
                     </ui>
                     
                 </div>
                 <div class="col-sm-4 text-left">
-                    <h3>Rootofequation</h3>
+                    <h3>INTERPOLATION</h3>
                     <ui>
-                    <li><Link to="/rootofequation/INTERPOLATION">INTERPOLATION</Link></li>
+                    <li><Link to="/rootofequation/INTERPOLATION">Linear INTERPOLATION</Link></li>
                         <li><Link to="/rootofequation/Lagange">Lagange</Link></li>
+                        <li><Link to="/rootofequation/LINEARREGRESSION">LEAST-SQUARES REGRESSION</Link></li>
+                        <li><Link to="/rootofequation/MULTIPLEREGRESSION">MULTIPLEREGRESSION</Link></li>
+                        <li><Link to="/rootofequation/Splines">Splines</Link></li>
+                        <h3>Integration && Diff</h3>
+                        <li><Link to="/rootofequation/Integration">Integration</Link></li>
+                        <li><Link to="/rootofequation/DIFFERENTIATION">DIFFERENTIATION</Link></li>
+                        <li><Link to="/rootofequation/Test1">Test1</Link></li>
+                        <li><Link to="/rootofequation/Test2">Test2</Link></li>
+                        <li><Link to="/rootofequation/Test3">Test3</Link></li>
                     </ui>
                     
                 </div>

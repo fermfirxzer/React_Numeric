@@ -1,0 +1,18 @@
+h2{
+    text-align: center;
+}
+.point{
+    display: flex;
+    margin-bottom: 10px;
+    
+}
+.point-h6{
+    width: 20%;
+    margin: 2%;
+}
+button{
+    margin: 1rem;
+}
+input{
+    margin:auto;
+}

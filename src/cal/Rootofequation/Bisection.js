@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Button, Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs'
-
+import Plot from 'react-plotly.js';
 const Sample =()=>{
     const print = () =>{
         console.log(data)
@@ -40,7 +40,7 @@ const Sample =()=>{
     const error =(xold, xnew)=> Math.abs((xnew-xold)/xnew)*100;
    
     const Calbisection = (xl, xr) => {
-        var xm,fXm,fXr,ea,scope;
+        var xm,fXm,fXr,ea,scope,xold=0;
         var iter = 0;
         var MAX = 50;
         const e = 0.00001;
@@ -66,7 +66,8 @@ const Sample =()=>{
                     iteration:iter,
                     Xl:xl,
                     Xm:xm,
-                    Xr:xr
+                    Xr:xr,
+                    Xold:xold
                 }
                 data.push(obj)
                 xr = xm;
@@ -78,11 +79,14 @@ const Sample =()=>{
                     iteration:iter,
                     Xl:xl,
                     Xm:xm,
-                    Xr:xr
+                    Xr:xr,
+                    Xold:xold
                 }
                 data.push(obj)
                 xl = xm;
             }
+            graphx.push({xm:xm,xold:xold})
+            xold=xm;
         }while(ea>e && iter<MAX)
         setX(xm)
     }
@@ -92,7 +96,7 @@ const Sample =()=>{
     const [valueXl, setValueXl] = useState([]);
     const [valueXm, setValueXm] = useState([]);
     const [valueXr, setValueXr] = useState([]);
-     
+    const [graphx,setgraphx]=useState([]);  
    
     const [html, setHtml] = useState(null);
     const [Equation,setEquation] = useState("(x^4)-13")
@@ -116,14 +120,14 @@ const Sample =()=>{
     }
 
     const calculateRoot = () =>{
+        console.log(data);
         const xlnum = parseFloat(XL)
         const xrnum = parseFloat(XR)
         Calbisection(xlnum,xrnum);
      
         setHtml(print());
            
-        console.log(valueIter)
-        console.log(valueXl)
+        
     }
 
     return (
@@ -146,7 +150,19 @@ const Sample =()=>{
                 <Container>
                 {html}
                 </Container>
-               
+                <Plot
+        data={[
+          {
+            x: graphx.map((row)=>row.xm,),
+            y: graphx.map((row)=>row.xold,),
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+          
+        ]}
+        layout={ {width: 1000, height: 800, title: 'Bisection Plot'} }
+      />
             </Container>
            
     )

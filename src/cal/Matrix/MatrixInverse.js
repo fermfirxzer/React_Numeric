@@ -40,7 +40,6 @@ const Matrixinverse = () => {
     // คัดลอกเมทริกซ์ a และ b
     const a = [...matrix.map(row => [...row])];
     const b = [...B];
-  
     // สร้างเมทริกซ์หน่วย n x n
     const identityMatrix = Array(n).fill(0).map((_, rowIndex) =>
       Array(n).fill(0).map((_, colIndex) => (rowIndex === colIndex ? 1 : 0))
@@ -76,10 +75,6 @@ const Matrixinverse = () => {
     console.log(roundedX);
     setX(roundedX);
   }
-  
-
-
-
   return (
     <div>
       <Container>
