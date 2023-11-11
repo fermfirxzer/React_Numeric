@@ -85,7 +85,7 @@ const Sample =()=>{
                 data.push(obj)
                 xl = xm;
             }
-            graphx.push({xm:xm,xold:xold})
+            graphx.push({xm:xm,xold:fXm})
             xold=xm;
         }while(ea>e && iter<MAX)
         setX(xm)

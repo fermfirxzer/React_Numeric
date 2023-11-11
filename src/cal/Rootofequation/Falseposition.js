@@ -11,6 +11,7 @@ const Falseposition=()=>{
     const [html, setHtml] = useState([]);
     const [Count, setCount] = useState(0);
     const [graphx,setgraphx]=useState([]);
+    const [graphy,setgraphy]=useState([]);
     const inputxl = (event) => {
         setxl(event.target.value);
     }
@@ -33,7 +34,7 @@ const Falseposition=()=>{
 
         }
         const print = () => {
-            console.log(data);
+            
             return (
                 <Container>
                     <Table striped bordered hover variant="dark">
@@ -65,6 +66,7 @@ const Falseposition=()=>{
         var x1=0,x1_old=0,fxl,fxr,fx1;
         var xl_new=xl,xr_new=xr;
         var e=0.000001,count=0;
+        var tempgraphx=[],tempgraphy=[];
         fxl=evaluate(Equation,{x:xl_new});
         fxr=evaluate(Equation,{x:xr_new});
         x1=(xl_new*fxr-xr_new*fxl)/(fxr-fxl);
@@ -77,7 +79,10 @@ const Falseposition=()=>{
                 xl_new=x1;
             }
             count++;
-            graphx.push({x1:x1,xold:x1_old})
+            
+            graphy.push(fx1);
+            tempgraphx.push(x1);
+            tempgraphy.push(fx1);
             x1_old=x1;
             fxl=evaluate(Equation,{x:xl_new});
             fxr=evaluate(Equation,{x:xr_new});
@@ -90,13 +95,14 @@ const Falseposition=()=>{
             };
             data.push(obj);
             
-            console.log("x1 :")
-            console.log(x1);
         }
+        setgraphx(tempgraphx)
+        setgraphy(tempgraphy)
         setCount(count);
         setx(x1);
-        console.log("answer :");
-        console.log(x1);
+        console.log(graphx);
+        console.log(graphy);
+    
     }
     
     return (
@@ -113,25 +119,22 @@ const Falseposition=()=>{
             <br></br>
             <h5>Answer = {x.toPrecision(7)}</h5>
             <h5>จำนวนรอบ = {Count}</h5>
-            <Container>
+            
                 {html}
-            </Container>
+            
             <Plot
         data={[
           {
-            x: graphx.map((row)=>row.xm,),
-            y: graphx.map((row)=>row.xold,),
+            x: graphx,
+            y: graphy,
             type: 'scatter',
             mode: 'lines+markers',
             marker: {color: 'red'},
           },
-          
+     
         ]}
-        layout={ {width: 1000, height: 800, title: 'Bisection Plot'} }
+        layout={ {width: 1000, height: 1000, title: 'Falseposition Plot'} }
       />
-      <Plot data={[{
-        
-      }]}/>
         </Container>
     )
 }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Container, Form, Table } from 'react-bootstrap';
 import { evaluate } from 'mathjs';
-import Plot from 'react-plotly.js';
+import Plot from "react-plotly.js";
 
 class Sample extends Component {
   constructor(props) {
@@ -165,7 +165,7 @@ class Sample extends Component {
         </Form>
         <br />
         <h5>Answer = {X.toPrecision(7)}</h5>
-        <Container>{html}</Container>
+        {html}
         <Plot
           data={[
             {

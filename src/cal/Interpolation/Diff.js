@@ -99,7 +99,14 @@ const Diff = () => {
   const inputequation = (e) => {
     setEquation(e.target.value);
   };
-
+  const pull=async()=>{
+    const res=await fetch("http://localhost:3001/diff")
+    const data=await res.json();
+    console.log(data)
+    setEquation(data[0].Diffequation);
+    setx(data[0].x)
+    seth(data[0].h);
+  }
   return (
     <>
       <Container>
@@ -111,11 +118,13 @@ const Diff = () => {
             <input type="text" value={x} onChange={inputx} className="form-control"></input>
             <Form.Label>Input : h</Form.Label>
             <input type="text" value={h} onChange={inputh} className="form-control"></input>
+
           </div>
           <Button variant="dark" onClick={CalFristdivided}>
             Diff
           </Button>
           <Button variant="dark" onClick={CalSecondDerivative}>Diff Second</Button>
+          <Button variant="dark" onClick={pull}>ดึงข้อมูล</Button>
         </div>
       </Container>
       <Container>

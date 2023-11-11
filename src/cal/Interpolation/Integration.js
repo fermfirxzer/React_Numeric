@@ -4,7 +4,7 @@ import './Interpolation.css';
 import { evaluate,integrate } from 'mathjs'
 const Integration = () => {
     const [n,setn]=useState(0);
-    const [equation,setEquation]=useState("4*(x^5)-3*(x^4)+(x^3)-6*x+2");
+    const [equation,setEquation]=useState("");
     const [p0,setp0]=useState(0);
     const [p1,setp1]=useState(0);
     const [realans,setrealans]=useState(0);
@@ -103,6 +103,14 @@ const Integration = () => {
         </div>
       )
     }
+    const pull=async()=>{
+      const res=await fetch("http://localhost:3001/test")
+      const data=await res.json()
+      console.log(data)
+      setEquation(data[0].Eqution)
+      setp0(data[0].A)
+      setp1(data[0].B)
+    }
     return (
         <>        
         <Container>
@@ -112,16 +120,17 @@ const Integration = () => {
               <input type="text" value={equation} onChange={inputequation} className="form-control" />
             </div>
           </div>
-
           <h5>ช่วงที่ต้องการ Integration</h5>
           <div className="row">
             <div className="col-2">
-              <h6>x0 :</h6>
+              <h6>A :</h6>
               <input type="text" value={p0} onChange={inputx0} className="form-control"></input>
-              <h6>x1 :</h6>
+              <h6>B :</h6>
               <input type="text" value={p1} onChange={inputx1} className="form-control"></input>
+              <Button variant="dark"onClick={pull}>ดึงข้อมูล</Button>
             </div>
           </div>
+          
           <div>
             <h4 className="mt-3">Single Trapezoidal Rule</h4>
             <Button variant="dark" onClick={CalSingleTrapezoidal}>Single Trapezoidal</Button>

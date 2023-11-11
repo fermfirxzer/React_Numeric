@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Container, Form, Table } from "react-bootstrap";
 import { evaluate } from 'mathjs';
-
+import Plot from "react-plotly.js";
 const GrapicalMethod = () => {
     const [x1, setx1] = useState();
     const [x2, setx2] = useState();
@@ -9,7 +9,9 @@ const GrapicalMethod = () => {
     const [html, setHtml] = useState(null);
     const [data, setData] = useState([]);
     const [Count, setCount] = useState(0);
-    const [x,setx]=useState(0);
+    const [x, setx] = useState(0);
+    const [graphx, setgraphx] = useState([]);
+    const [graphy, setgraphy] = useState([]);
     const inputx1 = (event) => {
         console.log(event.target.value)
         setx1(event.target.value);
@@ -26,9 +28,9 @@ const GrapicalMethod = () => {
     }
 
     const calculateRoot = () => {
-        const newData=[];
+        const newData = [];
         setCount(0);
-        CalGrapicalMethod(x1, x2,newData);
+        CalGrapicalMethod(x1, x2, newData);
         setData(newData);
         // setHtml(print());
     }
@@ -61,11 +63,13 @@ const GrapicalMethod = () => {
         );
     }
 
-    const CalGrapicalMethod = (x1, x2,newData) => {
-        var iter = 0,x_old=0,x_new=0;
-        var count=0;
+    const CalGrapicalMethod = (x1, x2, newData) => {
+        var iter = 0, x_old = 0, x_new = 0;
+        var count = 0;
         var fx1, fx2, fxnew, fxold;
         const e = 0.000001;
+        const tempgraphx=[];
+        const tempgraphy=[];
         for (var i = x1; i <= x2; i++) {
             count++;
             fx1 = evaluate(Equation, { x: i });
@@ -75,7 +79,8 @@ const GrapicalMethod = () => {
                 fxnew = evaluate(Equation, { x: x_new });
                 fxold = evaluate(Equation, { x: x_old });
                 while ((fxnew * fxold) > 0) {
-                    iter += 1;count++;
+                    iter += 1; count++;
+                    
                     x_old = x_new;
                     x_new = x_new + e;
                     fxnew = evaluate(Equation, { x: x_new });
@@ -87,6 +92,8 @@ const GrapicalMethod = () => {
                             x2: x_new,
                         };
                         data.push(obj);
+                        tempgraphx.push(x_new);
+                        tempgraphy.push(fxnew);
                     }
                 }
                 break;
@@ -94,8 +101,9 @@ const GrapicalMethod = () => {
         }
         setCount(count);
         setx(x_old);
-        console.log("answer :");
-        console.log(x_old);
+
+        setgraphx(tempgraphx);
+        setgraphy(tempgraphy);
     }
     return (
         <Container>
@@ -111,9 +119,20 @@ const GrapicalMethod = () => {
             <br></br>
             <h5>Answer = {x.toPrecision(7)}</h5>
             <h5>จำนวนรอบ = {Count}</h5>
-            <Container>
-                {html}
-            </Container>
+            {html}
+            <Plot
+                data={[
+                    {
+                        x: graphx,
+                        y: graphy,
+                        type: 'scatter',
+                        mode: 'lines+markers',
+                        marker: { color: 'red' },
+                    },
+                ]}
+                layout={{ width: 1000, height: 800, title: "Graphical" }}
+            ></Plot>
+
         </Container>
     )
 }

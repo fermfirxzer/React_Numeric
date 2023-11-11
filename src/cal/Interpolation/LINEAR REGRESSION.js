@@ -121,7 +121,7 @@ const LINEARREGRESSION = () => {
     {Array.from({ length: n }, (_, index) => (
       <tr key={index} className="mt-6">
         <td>
-            <h6 style={{width:'100%'}}>จุดที่ :{index+1}</h6>
+            
         </td>
         <td>
           <input
@@ -143,7 +143,7 @@ const LINEARREGRESSION = () => {
 </Table>
        {n > 0 && (
   <>
-    <h3>Linear REGRESSION (2 จุด)</h3>
+    <h3>Linear REGRESSION </h3>
           <div className="point">
             <h6 className="point-h6">x :</h6>
           <input
@@ -160,7 +160,7 @@ const LINEARREGRESSION = () => {
 )}
 {n > 0 && (
   <>
-    <h3>Polynomial REGRESSION (3 จุด)</h3>
+    <h3>Polynomial REGRESSION </h3>
           <div className="point">
             <h6 className="point-h6">x :</h6>
           <input
