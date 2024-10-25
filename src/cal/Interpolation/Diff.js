@@ -100,7 +100,7 @@ const Diff = () => {
     setEquation(e.target.value);
   };
   const pull=async()=>{
-    const res=await fetch("http://localhost:3001/diff")
+    const res=await fetch("http://localhost:3000/diff")
     const data=await res.json();
     console.log(data)
     setEquation(data[0].Diffequation);

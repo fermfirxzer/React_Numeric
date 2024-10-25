@@ -80,7 +80,7 @@ const Test1=()=>{
       );
   }
   const pull=async()=>{
-    const res=await fetch("http://localhost:3001/test");
+    const res=await fetch("http://localhost:3000/rootofequation/Test1");
     const data=await res.json();
     console.log(data);
     setEquation(data[0].Equation);
